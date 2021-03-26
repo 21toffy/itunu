@@ -1,0 +1,31 @@
+@keyframes slideIn {
+	100% {
+		right: 5px;
+	}
+}
+
+.notification-container {
+	box-sizing: border-box;
+	position: fixed;
+	z-index: 2000;
+	box-shadow: 2px 2px 20px 2px #00000042;
+	border-radius: 4px;
+	right: -100vw;
+	width: 100%;
+	max-width: 350px;
+	top: 10px;
+	background: #fff;
+	padding: 20px;
+	animation: slideIn 0.5s forwards;
+	animation-delay: 0.2s;
+}
+
+.notification-container .notification-message {
+	color: #000;
+	font-size: 14px;
+}
+
+.notification-container .notification-title {
+	color: #000;
+	font-size: 16px;
+}

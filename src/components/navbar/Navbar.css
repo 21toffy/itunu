@@ -1,0 +1,22 @@
+.navbar-custom { 
+    background-color: #151B54; 
+}
+li .nav-link{
+    color:#B6B6B4;
+}
+.govt-logo{
+    font-weight: 900;
+    font-size: 20px;
+}
+.h2-span{
+    color: #2c379a;
+}
+
+.h2-login{
+    color: #151B54;
+}
+
+nav.navbar-fixed-top {
+    position:fixed;
+    top:0;
+  }

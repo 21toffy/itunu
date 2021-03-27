@@ -5,7 +5,7 @@ import { useAuth } from "../../hooks";
 
 export const Check = () => {
   const { state } = useAuth();
-  const userRole = state?.data?.data?.data?.role;
+  const userRole = state.currentUser;
 
   if (userRole == "ADMIN") {
     return (

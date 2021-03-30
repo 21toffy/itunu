@@ -1,31 +1,33 @@
 import React, { useState, useEffect, createRef } from "react";
 import { Link } from "react-router-dom";
-import { ToastProvider, useToasts } from "react-toast-notifications";
 import Spinner from "../../components/spinner/Spiner";
 
-import { useCase } from "../../hooks";
+import { useCase, useAlert } from "../../hooks";
 import "./CaseDetail.css";
 
 const CreateCase = () => {
-  const { addToast } = useToasts();
 
   const { state, createACase } = useCase();
   const { cases, loading } = state;
+  const { alerts, setAlert } =useAlert();
+
   console.log(state)
   const [values, setValues] = useState({
     name: "",
     legacy_id: "",
     expiring_date: "",
   });
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     createACase(values);
     if (state?.error) {
-      addToast(state?.error, { appearance: "error" });
+      setAlert(state?.error, "danger");
       console.log(state?.error);
     } else {
-		addToast("Case Added Successfully", { appearance: "success" });
+		setAlert("Case Added Successfully", "success" );
     }
 
     setValues({
@@ -42,10 +44,7 @@ const CreateCase = () => {
       [e.target.name]: e.target.value,
     });
   
-    if (loading) {
-      return <Spinner />;
-    }
-
+   
   return (
     <div>
       <div className="custom-form row justify-content-md-center">
@@ -100,7 +99,8 @@ const CreateCase = () => {
                      id="expiring_date"
                      name="expiring_date"
                      value={values.expiring_date}
-                      required
+                     required
+                      
                     />
                   </div>
                 </div>

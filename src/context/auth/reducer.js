@@ -8,6 +8,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const AUTH_CLEAN_UP = 'AUTH_CLEAN_UP';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAIL = 'LOAD_USER_FAIL';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 const authReducer = (state, action) => {
 	switch (action.type) {
@@ -90,6 +91,11 @@ const authReducer = (state, action) => {
 				currentUser: null,
 				error: action.payload,
 			};
+		case CLEAR_ERROR:
+			return {
+				...state,
+				error:null
+			}
 
 		default:
 			return state;

@@ -201,7 +201,19 @@ color: white;
 padding: 10px;
 position: relative;
 }
-
+.spec-card-1 {
+  border-radius: 2px;
+  border-top: 4px solid rgba(0, 115, 170, 0.5);
+  box-shadow: 0 2px 1px rgb(0 0 0 / 5%);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  margin-bottom: 10px;
+  background-color: #fff!important;
+}
+.card-block-big {
+  padding: 2em;
+}
 .blue {
       
   background-color: #23b7e5!important;

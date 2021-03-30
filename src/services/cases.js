@@ -15,10 +15,9 @@ export const createCase = async (data) => {
   return res;
 };
 
-export const updateCase = async (data, assetId) => {
+export const updateCase = async (data, caseId) => {
   // const res = Axios.put("/cases/1", data);
-  const res = Axios.put(`/cases/${assetId}`, data);
-
+  const res = Axios.post(`/cases/${caseId}`, data);
   return res;
 };
 
@@ -55,8 +54,10 @@ export const createAsset = async (data) => {
   return res;
 };
 
-export const updateAsset = async (data) => {
-  const res = Axios.put(`/assets/${data}`, data);
+
+
+export const updateAsset = async (data, assetId) => {
+  const res = Axios.post(`/assets/${assetId}`, data);
   return res;
 };
 
@@ -98,3 +99,10 @@ export const resolvedCasesList = async () => {
 //   const res = Axios.get("/cases?expiring_from=2021-03-26&expiring_to=2021-04-01");
 //   return res;
 // };
+
+// ??HQ report like history
+
+export const caseHistory = async (caseId) => {
+  const res = Axios.get(`/cases/history/${caseId}`);
+  return res;
+};

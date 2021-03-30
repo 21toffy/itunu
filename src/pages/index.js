@@ -7,3 +7,6 @@ export { default as AssetDetailPage } from './Asset/AssetDetailPage';
 export { default as CaseAssets } from './Asset/CaseAssets';
 export { default as CreateCase } from './Case/CreateCase';
 export { default as ForefeitedCases } from './Dashboard/ForefietedCases';
+export { default as InitialCases } from './Dashboard/InitialCases';
+export { default as ClosedCases } from './Dashboard/ClosedCases';
+export { default as HqReport } from './Report/HqReport';

@@ -1,19 +1,20 @@
 import React from 'react';
-import { ToastProvider, useToasts } from 'react-toast-notifications';
 import CaseProvider from './case/provider';
 import AuthProvider from './auth/provider';
+import AlertProvider from './alert/provider';
 import DashboardProvider from './dashdoard/provider';
-// import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 const Providers = ({ children }) => {
 	return (
-		<AuthProvider>
+		<AlertProvider>
+			<AuthProvider>
 			<CaseProvider>
 				<DashboardProvider>
-					<ToastProvider>{children}</ToastProvider>
+					{children}
 				</DashboardProvider>
 			</CaseProvider>
 		</AuthProvider>
+		</AlertProvider>
 	);
 };
 export default Providers;

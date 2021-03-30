@@ -3,41 +3,39 @@ import "../Case/CaseDetail.css";
 // import "./save.css";
 
 import { Link } from "react-router-dom";
+import { useCase } from "../../hooks";
 import Spinner from "../../components/spinner/Spiner";
 import { useDash } from "../../hooks";
 
-const ForefietedCases = () => {
+const InitialCases = () => {
     const {
         getInitial,
-        final,
-        loading,
-        getFinal,
-        getResolved,
-        getClosed,
+        initial,
+        loading
       } = useDash();
-      // const { final, loading } = initialstate;
-
+      // const { initial, loading } = initialstate;
 
       useEffect(() => {
     
-       
-        getFinal();
-      
+        getInitial();
+
       }, []);
 
 
-  const allfinalCount = final?.length;
 
+  const allinitialCount = initial?.length;
+  
   if (loading) {
     return <Spinner />;
   }
+
     return (
         <div class="cardo">
         <div class="card-body">
           <div class="d-md-flex align-items-center">
             <div>
-              <h4 class="card-title"> Expired Cases </h4>
-              <h6 class="card-subtitle">{allfinalCount}</h6>
+              <h4 class="card-title"> Cases in Initial Forfeiture</h4>
+              <h6 class="card-subtitle">{allinitialCount}</h6>
             </div>
             
           </div>
@@ -59,8 +57,8 @@ const ForefietedCases = () => {
               </tr>
             </thead>
             <tbody>
-              {final?.length > 0 ? (
-                final.map((cas, index) => (
+              {initial?.length > 0 ? (
+                initial.map((cas, index) => (
                   <tr key={index}>
                     <td>
                       <h6 class="m-b-0 font-16">{cas.name}</h6>
@@ -103,4 +101,4 @@ const ForefietedCases = () => {
     )
 }
 
-export default ForefietedCases
+export default InitialCases;

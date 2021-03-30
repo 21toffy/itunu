@@ -9,6 +9,10 @@ export const GET_CLOSED_FAIL = "GET_CLOSED_FAIL";
 export const DASH_START = "DASH_START";
 export const REQUEST_VALUATION_SUCCESS = "REQUEST_VALUATION_SUCCESS";
 export const REQUEST_VALUATION_FAIL = "REQUEST_VALUATION_FAIL";
+export const FILTER_LIST = "FILTER_LIST";
+export const CLEAR_FILTER = "CLEAR_FILTER";
+export const DETAIL_HISTORY_SUCCESS = "DETAIL_HISTORY_SUCCESS";
+export const DETAIL_HISTORY_FAIL = "DETAIL_HISTORY_FAIL";
 
 const dashboardReducer = (state, action) => {
   switch (action.type) {
@@ -77,25 +81,59 @@ const dashboardReducer = (state, action) => {
         error: null,
       };
 
+    // Button / form to request valuation on an expired date
 
-      // Button / form to request valuation on an expired date
+    case REQUEST_VALUATION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        closed: action.payload,
+      };
+    case REQUEST_VALUATION_FAIL:
+      return {
+        ...state,
+        loading: false,
+        closed: null,
+        error: null,
+      };
 
-      case REQUEST_VALUATION_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          error: null,
-          closed: action.payload,
-        };
-      case REQUEST_VALUATION_FAIL:
-        return {
-          ...state,
-          loading: false,
-          closed: null,
-          error: null,
-        };
+    case FILTER_LIST:
+      return {
+        ...state,
+        filtered: state.contacts.filter((contact) => {
+          const regex = new RegExp(`${action.payload}`, "gi");
+          return contact.name.match(regex) || contact.email.match(regex);
+        }),
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null,
+      };
+    // case CONTACT_ERROR:
+    //   return {
+    //     ...state,
+    //     error: action.payload,
+    //   };
 
 
+    // Hq history and report page
+    case DETAIL_HISTORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        historyDetail: action.payload,
+        error: null,
+      };
+
+    case DETAIL_HISTORY_FAIL:
+      return {
+        ...state,
+        loading: false,
+        historyDetail: null,
+        error: action.payload,
+      };
 
     default:
       return state;

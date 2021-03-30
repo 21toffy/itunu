@@ -17,9 +17,14 @@ export const ADD_ASSET_SUCCESS = "ADD_ASSET_SUCCESS";
 export const ADD_ASSET_FAIL = "ADD_ASSET_FAIL";
 export const UPDATE_ASSET_SUCCESS = "UPDATE_ASSET_SUCCESS";
 export const UPDATE_ASSET_FAIL = "UPDATE_ASSET_FAIL";
-export const SET_CURRENT_SUCCESS = "SET_CURRENT_SUCCESS"
-export const SET_CURRENT_FAIL = "SET_CURRENT_FAIL"
-export const CLEAR_CURRENT = "CLEAR_CURRENT"
+export const SET_CURRENT_SUCCESS = "SET_CURRENT_SUCCESS";
+export const SET_CURRENT_FAIL = "SET_CURRENT_FAIL";
+export const CLEAR_CURRENT = "CLEAR_CURRENT";
+export const LIST_ERROR = "LIST_ERROR";
+export const FILTER_LIST = "FILTER_LIST";
+export const CLEAR_FILTER = "CLEAR_FILTER";
+export const CASE_HISTORY_SUCCESS = "CASE_HISTORY_SUCCESS";
+export const CASE_HISTORY_FAIL = "CASE_HISTORY_FAIL";
 
 const caseReducer = (state, action) => {
   switch (action.type) {
@@ -141,7 +146,7 @@ const caseReducer = (state, action) => {
         ...state,
         loading: false,
         caseDetail: action.payload,
-        error: null, 
+        error: null,
       };
 
     case UPDATE_CASE_FAIL:
@@ -155,7 +160,7 @@ const caseReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        assets: [...state.assets, action.payload],
+        assetDetail: action.payload,
         error: null,
       };
 
@@ -163,33 +168,22 @@ const caseReducer = (state, action) => {
       return {
         ...state,
         loading: false,
+        assetDetail:null,
         error: action.payload,
       };
 
-    case SET_CURRENT_SUCCESS:
+    case FILTER_LIST:
       return {
         ...state,
-        loading: false,
-        current: action.payload,
-        error: null,
+        filtered: state.cases.filter((cas) => {
+          const regex = new RegExp(`${action.payload}`, "gi");
+          return cas.name.match(regex);
+        }),
       };
-
-    case SET_CURRENT_FAIL:
+    case CLEAR_FILTER:
       return {
         ...state,
-        loading: false,
-        crrent: null,
-        error: action.payload,
-      };
-
-    //   clear crrent
-
-    case CLEAR_CURRENT:
-      return {
-        ...state,
-        loading: false,
-        current: null,
-        error: null,
+        filtered: null,
       };
 
     default:

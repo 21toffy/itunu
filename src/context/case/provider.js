@@ -232,10 +232,12 @@ const CaseProvider = (props) => {
   };
 
   //to update a case
-  const updateCaseItem = async (datas, caseId) => {
+  const updateCaseItem = async (values) => {
     try {
       dispatch({ type: CASE_START });
-      const res = await updateCase(datas, caseId);
+      const res = await updateCase(values);
+
+      console.log(res.data);
       const data = res.data;
 
       dispatch({
@@ -253,15 +255,18 @@ const CaseProvider = (props) => {
   };
 
   //to update an asset of a partiular case
-  const updateCaseAssets = async (datas, assetId) => {
+  const updateCaseAssets = async (caseId) => {
     try {
       dispatch({ type: CASE_START });
-      const res = await updateAsset(datas, assetId);
+      const res = await updateAsset(caseId);
+
+      console.log(caseId);
+      console.log(res.data);
       const data = res.data;
 
       dispatch({
         type: UPDATE_ASSET_SUCCESS,
-        payload: data,
+        payload: data.data,
       });
     } catch (error) {
       console.log("AAAAAAAAA", error);
@@ -318,7 +323,6 @@ const CaseProvider = (props) => {
         state,
         CaseState:state,
         CaseDetail:state.CaseDetail,
-        AssetDetail:state.AssetDetail,
         getCases, //
         createACase, //
         getCase,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCase, useAuth } from "../../hooks";
+import { useCase } from "../../hooks";
 import { Link } from "react-router-dom";
 import "./CaseDetail?.css";
 import Spinner from "../../components/spinner/Spiner";
@@ -16,15 +16,15 @@ const CaseDetail = (props) => {
   } = useCase();
   const caseId = props.match.params.id;
 
+  const { caseDetail, loading, assets } = state;
+  console.log(state.assets);
+  // useEffect(() => {
+  //   if
+  //   return () => {
+  //     cleanup
+  //   }
+  // }, [input])
 
-
-  const {
-    state: { currentUser },
-  } = useAuth();
-
-
-  const { loading, assets, caseDetail } = state;
-  console.log(state.caseDetail);
   const [values, setValues] = useState({
     name: "",
     description: "",
@@ -32,28 +32,35 @@ const CaseDetail = (props) => {
     type: "",
   });
 
-  const [datas, setDatas] = useState({
-    _method: "PUT",
-    name: "",
-    legacy_id: "",
-    expiring_date: "",
-  });
+  // const
 
+  // const [name, setName] = useState(caseDetail?.name);
+  // const [legacyid, setLegacyId] = useState(caseDetail?.legacy_id);
+  // const [expirydate, setExpiryDate] = useState(caseDetail?.expiring_date);
+
+  const [name, setName] = useState("");
+  const [legacyid, setLegacyId] = useState("");
+  const [expirydate, setExpiryDate] = useState("");
   useEffect(() => {
     getCase(caseId);
     getCaseAssets(caseId);
   }, []);
   // const id = state.cases.id;
   const id = state?.caseDetail?.id;
+  console.log(id);
 
   const handleSubmit = (e) => {
+    console.log(values);
+
     e.preventDefault();
-    updateCaseItem(datas, caseId);
+    updateCaseItem(values);
+
+    getCaseAssets(caseId);
+    console.log(values);
   };
 
   const assetSubmit = (e) => {
     e.preventDefault();
-
     values.case_id = id;
     createAnAsset(values);
     setValues({
@@ -63,14 +70,6 @@ const CaseDetail = (props) => {
       type: "",
     });
   };
-
-
-  console.log(currentUser?.role);
-  const onChangeCase = (e) =>
-    setDatas({
-      ...datas,
-      [e.target.name]: e.target.value,
-    });
 
   const onChange = (e) =>
     setValues({
@@ -88,10 +87,7 @@ const CaseDetail = (props) => {
       <div className="row">
         {/* case detail card starts */}
 
-        <div
-          class="col-md-5 d-flex flex-column p-3 m-3 bg-white shorten-card shadow-sm rounded animated flipInX delay-8"
-          style={{ borderTop: "4px solid #151B54" }}
-        >
+        <div class="col-md-5 d-flex flex-column p-3 m-3 bg-white shorten-card shadow-sm rounded animated flipInX delay-8">
           <div class="text-uppercase text-tracked text-muted mb-2">
             Case details
           </div>
@@ -118,21 +114,13 @@ const CaseDetail = (props) => {
               <small />
               Status:<small>&nbsp;&nbsp;{caseDetail?.status}</small>
             </h5>
-           {
-             currentUser?.role === "FORFEITURE" ?
-             
-             <input
-             type="button"
-             class="modal-buttons"
-             data-toggle="modal"
-             data-target="#addCase"
-             value="Edit Case"
-             data-backdrop="false"
-             data-dismiss="modal"
-           />
-           :
-           null
-           }
+            <input
+              type="button"
+              class="modal-buttons"
+              data-toggle="modal"
+              data-target="#addCase"
+              value="Edit Case"
+            />
 
             {/* case detail modal starts */}
             <div
@@ -158,46 +146,48 @@ const CaseDetail = (props) => {
                     </p>
                   </div>
                   <div class="modal-body">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={() => setCurrent(values)}>
                       <h3> Update Case </h3>
 
                       <label for="name">Case Name:</label>
                       <input
                         type="text"
-                        onChange={onChangeCase}
+                        onChange={(e) => setName(e.target.value)}
                         id="name"
                         name="name"
-                        value={datas.name}
+                        value={name}
                       />
 
                       <label for="legacy_id">Legacy ID</label>
                       <input
                         type="text"
-                        onChange={onChangeCase}
+                        onChange={(e) => setLegacyId(e.target.value)}
                         id="legacy_id"
                         name="legacy_id"
-                        value={datas.legacyid}
+                        value={legacyid}
                       />
 
                       <label for="expiring_date">Epiry Date:</label>
                       <input
                         type="date"
-                        onChange={onChangeCase}
+                        onChange={(e) => setExpiryDate(e.target.value)}
                         id="expiring_date"
                         name="expiring_date"
-                        value={datas.expirydate}
+                        value={expirydate}
                       />
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button type="submit">Update Case</button>
-                      </div>
                     </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button onClick={() => setCurrent(values)} type="submit">
+                      Update Case
+                    </button>
                   </div>
                 </div>
               </div>
@@ -216,9 +206,9 @@ const CaseDetail = (props) => {
                     <div class="col-6 text-left">
                       <div class="counter-card-text">
                         <smal class="mx-1  pb-3 justify-content-start">
-                          Assets {state?.assets?.length}
+                          Assets  {state?.assets?.length}
                         </smal>
-                        <br />
+                        <br/>
                       </div>
                     </div>
                   </div>
@@ -230,8 +220,11 @@ const CaseDetail = (props) => {
               <div class="spec-card-1 counter-card-2">
                 <div class="card-block-big">
                   <div class="row">
+                   
                     <div class="col-6 text-left">
-                      <div class="counter-card-text">Valued At ₦21,000</div>
+                      <div class="counter-card-text">
+                        Valued At{" "} ₦21,000
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -242,28 +235,20 @@ const CaseDetail = (props) => {
               <div class="spec-card-1 counter-card-2">
                 <div class="card-block-big">
                   <div class="row">
+                    
                     <div class="col-6 text-left">
                       <div class="counter-card-text">
-                        <div class="text-uppercase text-tracked text-muted mb-2">
+                      <div class="text-uppercase text-tracked text-muted mb-2">
                           Case Assets Overview
-
-                          {
-             currentUser?.role === "FORFEITURE" ?
-             
-             <input
-             type="button"
-             class="modal-buttons"
-             data-toggle="modal"
-             data-target="#addAsset"
-             value="Add Asset"
-             data-backdrop="false"
-             data-dismiss="modal"
-           />
-           :
-           null
-           }
-
-                          
+                          <input
+                            type="button"
+                            class="modal-buttons"
+                            data-toggle="modal"
+                            data-target="#addAsset"
+                            value="Add Asset"
+                            data-backdrop="false"
+                            data-dismiss="modal"
+                          />
                         </div>
                       </div>
                     </div>
@@ -272,8 +257,12 @@ const CaseDetail = (props) => {
               </div>
             </div>
           </div>
-
+          
+          
+         
           <div>
+            
+            
             {/* asset modal starts */}
 
             <div

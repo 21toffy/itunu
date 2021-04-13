@@ -17,7 +17,6 @@ import { getToken, setToken } from "../../utils/helpers";
 
 export const AuthContext = createContext();
 
-
 const AuthProvider = (props) => {
   //with state allows you access anythig within the state
   //dispatch allows you to dispatch objects to the reducer
@@ -109,9 +108,9 @@ const AuthProvider = (props) => {
       });
     }
   };
-  const clearErrors = () =>{
-    dispatch({type:CLEAR_ERROR})
-  }
+  const clearErrors = () => {
+    dispatch({ type: CLEAR_ERROR });
+  };
   useEffect(() => {
     onLoad();
   }, []);
@@ -121,7 +120,7 @@ const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         state,
-        authState:state,
+        authState: state,
         register,
         login,
         logout,

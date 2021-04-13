@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../../hooks";
@@ -12,13 +12,12 @@ const Navbar = () => {
   const {
     state: { isAuthenticated },
     logout,
-    currentUser,
   } = useAuth();
   const { state } = useAuth();
 
   const userRole = state?.data?.data?.data?.role;
-  //   console.log(state.currentUser.role);
-  // console.log(state.currentUser.user.email);
+//   console.log(state.currentUser.role);
+// console.log(state.currentUser.user.email);
 
   const handleLogout = (e) => {
     logout();
@@ -42,7 +41,7 @@ const Navbar = () => {
         style={{ float: "right;" }}
       >
         <i class="fas fa-sign-in-alt pr-1" />
-        Logout: {state?.currentUser?.user?.email} - {state?.currentUser?.role}
+        Logout:	  {state?.currentUser?.user?.email}
       </button>
     </div>
   );
@@ -76,14 +75,12 @@ const Navbar = () => {
                     Home <span class="sr-only">(current)</span>
                   </Link>
                 </li>
-                {state?.currentUser?.role === "FORFEITURE" ? (
-                  <li class="nav-item mx-3 active">
-                    <Link class="nav-link" to="/create-case">
-                      <i class="fas fa-folder-plus pr-2" />
-                      Create Case
-                    </Link>
-                  </li>
-                ) : null}
+                <li class="nav-item mx-3 active">
+                  <Link class="nav-link" to="/create-case">
+                    <i class="fas fa-folder-plus pr-2" />
+                    Create Case
+                  </Link>
+                </li>
 
                 <li class="nav-item mx-3 active">
                   <Link class="nav-link" to="/all-assets">

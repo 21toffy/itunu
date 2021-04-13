@@ -1,51 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { useCase, useAuth } from "../../hooks";
+import { useCase } from "../../hooks";
 import Spinner from "../../components/spinner/Spiner";
 import "./Asset.scoped.css";
 import { Link } from "react-router-dom";
 
 const AssetDetailPage = (props) => {
-  const {
-    getAssetDetail,
-    state,
-    getCase,
-    updateCaseAssets,
-    caseDetail,
-  } = useCase();
-  const { authState } = useAuth();
-  console.log(authState.currentUser);
-
+  const { getAssetDetail, state, getCase } = useCase();
   const assetId = props.match.params.id;
 
   // console.log(caseDetail[0]);
 
-  const { assetDetail, loading } = state;
+  const { assetDetail, loading, caseDetail } = state;
 
   useEffect(() => {
     getCase(caseDetail?.id);
     getAssetDetail(assetId);
   }, []);
+  console.log(state);
+  // const caseId = assetDetail?.case_id;
 
-  const [datas, setDatas] = useState({
-    _method: "PUT",
+  const [values, setValues] = useState({
     name: "",
-    description: "",
-    location: "",
-    type: "",
+    legacy_id: "",
+    expiring_date: "",
   });
-  const id = state?.caseDetail?.id;
+
+  console.log(state);
+
+  // const { assetDetail, loading, caseDetail } = state;
+  //   console.log(getCase(caseDetail.id))
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateCaseAssets(datas, assetId);
+    // createACase(values);
   };
 
   const onChange = (e) =>
-    setDatas({
-      ...datas,
+    setValues({
+      ...values,
       [e.target.name]: e.target.value,
     });
-
   if (loading) {
     return <Spinner />;
   }
@@ -64,13 +58,13 @@ const AssetDetailPage = (props) => {
                   <h5 className="font-strong  text-dark m-b-10 m-t-10">
                     Case:{" "}
                     <small className="pr-1 text-muted">
-                      {state?.caseDetail?.name}
+                      {caseDetail?.name}
                     </small>
                   </h5>
                   <h5 className="font-strong text-dark  m-b-10 m-t-10">
                     Legacy Id:{" "}
                     <small className="pr-1 text-muted">
-                      {state?.caseDetail?.legacy_id}
+                      {caseDetail?.legacy_id}
                     </small>
                   </h5>
                 </div>
@@ -80,7 +74,7 @@ const AssetDetailPage = (props) => {
               <div class="row align-items-center">
                 <div class="col-9">
                   <h6 class="text-dark m-b-0">
-                    Expiry Date: {state?.caseDetail?.expiring_date}
+                    Expiry Date: {caseDetail?.expiring_date}
                   </h6>
                 </div>
               </div>
@@ -90,39 +84,41 @@ const AssetDetailPage = (props) => {
           <div class="card card-hover">
             <div class="card-block">
               <div class="row text-dark">
-                <h5 className="font-strong  text-dark m-b-10 m-t-10">
-                  Legacy Id:{" "}
-                  <small className="pr-3 text-muted">
-                    {state?.caseDetail?.legacy_id}
-                  </small>
-                </h5>
-                <h5 className="font-strong text-dark  m-b-10 m-t-10">
-                  Status:{" "}
-                  <small className="pr-3 text-muted">
-                    {state?.caseDetail?.status}
-                  </small>
-                </h5>
+              <h5 className="font-strong  text-dark m-b-10 m-t-10">
+                    Legacy Id:{" "}
+                    <small className="pr-3 text-muted">
+                    {caseDetail?.legacy_id}
+                    </small>
+                  </h5>
+                  <h5 className="font-strong text-dark  m-b-10 m-t-10">
+                    Status:{" "}
+                    <small className="pr-3 text-muted">
+                      {caseDetail?.status}
+                    </small>
+                  </h5>
                 <br />
-
-                <br />
+                
+                <br />               
               </div>
-              <Link to={`/case/${assetDetail?.case_id}`}>
-                <button className="btn btn-info btn-rounded m-b-5">
-                  <i className="fa fa-arrow-left" />
-                  Back To Case
-                </button>
-              </Link>
+              <Link to={`/case/${caseDetail?.id}`}>
+                  <button className="btn btn-info btn-rounded m-b-5">
+                    <i className="fa fa-arrow-left" />
+                    Back To Case
+                  </button>
+                </Link>
             </div>
             <div class="card-footer text-dark bg--purple">
               <div class="row align-items-center">
                 <div class="col-9">
                   <h6 class="text-dark m-b-0">
-                    Creation Date: {state?.caseDetail?.created_at}
+                    Creation Date: {caseDetail?.created_at}
                   </h6>
                 </div>
               </div>
             </div>
           </div>
+
+      
         </div>
 
         <div className="col-lg-8 col-md-7">
@@ -138,20 +134,11 @@ const AssetDetailPage = (props) => {
                     <i className="ti-bar-chart" /> Asset Overview
                   </a>
                 </li>
-                {authState?.currentUser?.role !== "FOREFEITURE" ? null : (
                 <li className="nav-item">
                   <a className="nav-link" href="#tab-2" data-toggle="tab">
                     <i className="ti-settings" /> Edit Asset
                   </a>
                 </li>
-                )}
-                {authState?.currentUser?.role !== "EVALUATION" ? null : (
-                  <li className="nav-item">
-                    <a className="nav-link" href="#tab-3" data-toggle="tab">
-                      <i className="ti-bar-chart" /> Evaluate Asset
-                    </a>
-                  </li>
-                )}
               </ul>
               <div className="tab-content">
                 <div className="tab-pane fade show active" id="tab-1">
@@ -190,7 +177,7 @@ const AssetDetailPage = (props) => {
                   </div>
                 </div>
                 <div className="tab-pane fade" id="tab-2">
-                  <form onSubmit={handleSubmit}>
+                  <form action="javascript:void(0)">
                     <div className="row" />
                     <div className="form-group">
                       <label>Name</label>
@@ -198,10 +185,6 @@ const AssetDetailPage = (props) => {
                         className="form-control"
                         type="text"
                         placeholder="Name"
-                        onChange={onChange}
-                        id="name"
-                        name="name"
-                        value={datas.name}
                       />
                     </div>
                     <div className="form-group">
@@ -210,10 +193,6 @@ const AssetDetailPage = (props) => {
                         className="form-control"
                         type="text"
                         placeholder="Description"
-                        onChange={onChange}
-                        id="description"
-                        name="desciption"
-                        value={datas.desciption}
                       />
                     </div>
 
@@ -223,10 +202,6 @@ const AssetDetailPage = (props) => {
                         className="form-control"
                         type="text"
                         placeholder="location"
-                        onChange={onChange}
-                        id="location"
-                        name="location"
-                        value={datas.location}
                       />
                     </div>
 
@@ -236,10 +211,6 @@ const AssetDetailPage = (props) => {
                         className="form-control"
                         type="text"
                         placeholder="Type"
-                        onChange={onChange}
-                        id="type"
-                        name="type"
-                        value={datas.type}
                       />
                     </div>
 
@@ -251,53 +222,12 @@ const AssetDetailPage = (props) => {
                       </label>
                     </div>
                     <div className="form-group">
-                      <button className="btn btn-default" type="submit">
+                      <button className="btn btn-default" type="button">
                         Submit
                       </button>
                     </div>
                   </form>
                 </div>
-                {/* 2nd tab ends */}
-
-                {/* 3rd tab starts */}
-                {authState?.currentUser?.role !== "EVALUATION" ? null : (
-                  <div className="tab-pane fade" id="tab-3">
-                    <form onSubmit={handleSubmit}>
-                      <div className="row" />
-                      <div className="form-group">
-                        <label>Name</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Name"
-                          onChange={onChange}
-                          id="name"
-                          name="name"
-                          value={datas.name}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Description</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Description"
-                          onChange={onChange}
-                          id="description"
-                          name="desciption"
-                          value={datas.desciption}
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <button className="btn btn-default" type="submit">
-                          Submit
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                )}
-                {/* 3rd tab ends */}
               </div>
             </div>
           </div>

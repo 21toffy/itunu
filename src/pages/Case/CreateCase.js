@@ -84,7 +84,6 @@ const CreateCase = () => {
                      name="legacy_id"
                      value={values.lagacy_id}
                       class="form-control"
-                      required
                     />
                   </div>
                 </div>
@@ -99,7 +98,6 @@ const CreateCase = () => {
                      id="expiring_date"
                      name="expiring_date"
                      value={values.expiring_date}
-                     required
                       
                     />
                   </div>

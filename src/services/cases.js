@@ -15,9 +15,10 @@ export const createCase = async (data) => {
   return res;
 };
 
-export const updateCase = async (data, caseId) => {
+export const updateCase = async (data, assetId) => {
   // const res = Axios.put("/cases/1", data);
-  const res = Axios.post(`/cases/${caseId}`, data);
+  const res = Axios.put(`/cases/${assetId}`, data);
+
   return res;
 };
 
@@ -54,10 +55,8 @@ export const createAsset = async (data) => {
   return res;
 };
 
-
-
-export const updateAsset = async (data, assetId) => {
-  const res = Axios.post(`/assets/${assetId}`, data);
+export const updateAsset = async (data) => {
+  const res = Axios.put(`/assets/${data}`, data);
   return res;
 };
 

@@ -18,19 +18,18 @@ const Login = () => {
 
   useEffect(() => {
     if (state.isAuthenticated) {
-      history.push("/");
+      history.push("/")
     }
   }, [history, state.isAuthenticated]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     clearErrors();
-
-    login(values);
-    clearErrors();
     if (!state.error) {
-      setAlert("Login success", "success");
-      console.log(state?.error);
+      setAlert(
+        "Something is Wrong. Make Sure you are connected to the internet",
+        "danger"
+      );
       clearErrors();
     } else if (
       state?.error === "UnAuthenticated" ||
@@ -44,6 +43,8 @@ const Login = () => {
       console.log(state?.error);
       clearErrors();
     }
+
+    login(values);
   };
 
   // const x = clearErrors();
@@ -58,7 +59,7 @@ const Login = () => {
   // }
 
   return (
-    <div className="banner">
+    <div className="">
       <div className="custom-form row justify-content-md-center .bg-form bg-form">
         <div className="col-md-6 col-md-offset-3">
           <h2 className="h2-login text-center">
@@ -74,7 +75,6 @@ const Login = () => {
                 onChange={onChange}
                 name="email"
                 value={values.email}
-                required
               />
             </div>
             <div class="form-group">
@@ -86,7 +86,6 @@ const Login = () => {
                 onChange={onChange}
                 name="password"
                 value={values.password}
-                required
               />
             </div>
 

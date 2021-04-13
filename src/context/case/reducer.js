@@ -160,7 +160,7 @@ const caseReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        assetDetail: action.payload,
+        assets: [...state.assets, action.payload],
         error: null,
       };
 
@@ -168,7 +168,6 @@ const caseReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        assetDetail:null,
         error: action.payload,
       };
 
@@ -185,7 +184,7 @@ const caseReducer = (state, action) => {
         ...state,
         filtered: null,
       };
-
+    
     default:
       return state;
   }
